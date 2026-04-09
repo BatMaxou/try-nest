@@ -1,0 +1,18 @@
+services:
+  node:
+    depends_on:
+      - db
+    build:
+      context: .
+      target: dev
+    networks:
+      - try-nest
+
+  db:
+    image: postgres:18.3
+    restart: always
+    networks:
+      - try-nest
+
+networks:
+  try-nest:

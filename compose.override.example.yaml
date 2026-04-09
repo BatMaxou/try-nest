@@ -1,0 +1,13 @@
+services:
+  node:
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+
+  db:
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+
