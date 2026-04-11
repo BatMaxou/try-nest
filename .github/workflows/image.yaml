@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - develop
+  pull_request:
 
 env:
   REGISTRY: ghcr.io
@@ -27,5 +28,6 @@ jobs:
         uses: ./.github/workflows/callables/build-push
         with:
           context: .
+          dockerfile: ./Dockerfile
           image: node
           target: prod
