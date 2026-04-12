@@ -1,0 +1,28 @@
+type: http_request
+model: http_request
+id: rq_register001
+createdAt: 2026-04-12T00:00:00
+updatedAt: 2026-04-12T15:56:22.287166851
+workspaceId: wk_tryNest001
+folderId: fl_auth001
+authentication: {}
+authenticationType: null
+body:
+  text: |-
+    {
+      "username": "test2",
+      "email": "test@test.com",
+      "password": "password"
+    }
+bodyType: application/json
+description: Register a new player
+headers:
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: contentType001
+method: POST
+name: Register
+sortPriority: 0.0
+url: ${[ BASE_URL ]}/auth/register
+urlParameters: []

@@ -52,6 +52,11 @@ build:
 	@${node} pnpm run build
 .PHONY: front-build
 
+# --- TESTS ---
+tests:
+	@${node} pnpm test:e2e
+.PHONY: test
+
 # --- DEV UTILS ---
 exec-db:
 	@docker compose exec ${DATABASE_HOST} psql -h ${DATABASE_HOST} -U ${DATABASE_USERNAME} -d ${DATABASE_NAME}

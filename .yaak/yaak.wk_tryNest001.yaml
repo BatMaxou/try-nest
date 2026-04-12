@@ -1,0 +1,14 @@
+type: workspace
+model: workspace
+id: wk_tryNest001
+createdAt: 2026-04-12T00:00:00.000000000
+updatedAt: 2026-04-12T00:00:00.000000000
+authentication: {}
+authenticationType: null
+description: ''
+headers: []
+name: Try Nest - Tournaments API
+settingValidateCertificates: true
+settingFollowRedirects: true
+settingRequestTimeout: 0
+settingDnsOverrides: []
