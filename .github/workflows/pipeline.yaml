@@ -8,7 +8,7 @@ on:
   pull_request:
 
 jobs:
-  pipeline-front:
+  pipeline:
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
@@ -24,3 +24,18 @@ jobs:
 
       - name: Linter
         run: make lint
+
+  tests:
+    needs: pipeline
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Docker up
+        run: make up node
+
+      - name: Tests
+        run: make tests
