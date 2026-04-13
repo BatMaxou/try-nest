@@ -16,3 +16,11 @@ export class RegisterRequest {
   @IsOptional()
   avatar?: string;
 }
+
+export class LoginRequest {
+  @IsString()
+  identifier: string;
+
+  @IsString()
+  password: string;
+}
