@@ -1,0 +1,30 @@
+type: http_request
+model: http_request
+id: rq_vD7qnAHYKN
+createdAt: 2026-04-14T01:47:23.462944
+updatedAt: 2026-04-14T01:48:59.791162
+workspaceId: wk_tryNest001
+folderId: fl_fH49w2d4GH
+authentication: {}
+authenticationType: null
+body:
+  text: |-
+    {
+      "name": "Coupe du printemps 2026",
+      "gameId": "f7590a5b-89dc-495d-a650-1a58f2f170df",
+      "maxPlayers": 16,
+      "startDate": "2026-05-01T18:00:00.000Z",
+      "status": "in_progress"
+    }
+bodyType: application/json
+description: ''
+headers:
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: kKrZBsrbRB
+method: PUT
+name: Update
+sortPriority: 3000.0
+url: ${[ BASE_URL ]}/tournaments/f91d4418-4d84-466b-b74c-332381eb9e5b
+urlParameters: []
