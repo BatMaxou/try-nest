@@ -1,0 +1,18 @@
+type: http_request
+model: http_request
+id: rq_qAGRQ6RBHV
+createdAt: 2026-04-14T01:18:01.300961
+updatedAt: 2026-04-14T01:47:29.233425
+workspaceId: wk_tryNest001
+folderId: fl_fH49w2d4GH
+authentication: {}
+authenticationType: null
+body: {}
+bodyType: null
+description: ''
+headers: []
+method: GET
+name: Get Tournaments
+sortPriority: 0.0
+url: ${[ BASE_URL ]}/tournaments
+urlParameters: []
