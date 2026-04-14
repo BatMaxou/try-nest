@@ -1,0 +1,18 @@
+type: http_request
+model: http_request
+id: rq_tBcQfvXDGe
+createdAt: 2026-04-14T00:49:11.589621
+updatedAt: 2026-04-14T00:49:40.316985
+workspaceId: wk_tryNest001
+folderId: fl_99RzUBgHbP
+authentication: {}
+authenticationType: null
+body: {}
+bodyType: null
+description: ''
+headers: []
+method: GET
+name: Game
+sortPriority: 1000.0
+url: ${[ BASE_URL ]}/games/f7590a5b-89dc-495d-a650-1a58f2f170df
+urlParameters: []

@@ -1,0 +1,18 @@
+type: http_request
+model: http_request
+id: rq_n3hJ9tB6Uz
+createdAt: 2026-04-14T00:42:49.797932
+updatedAt: 2026-04-14T00:49:19.449761
+workspaceId: wk_tryNest001
+folderId: fl_99RzUBgHbP
+authentication: {}
+authenticationType: null
+body: {}
+bodyType: null
+description: ''
+headers: []
+method: DELETE
+name: Delete
+sortPriority: 4000.0
+url: ${[ BASE_URL ]}/games/847b71a3-9278-4e2c-9927-6b744bcf992e
+urlParameters: []

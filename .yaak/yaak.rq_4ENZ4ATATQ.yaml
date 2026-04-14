@@ -1,0 +1,29 @@
+type: http_request
+model: http_request
+id: rq_4ENZ4ATATQ
+createdAt: 2026-04-14T00:13:48.483710
+updatedAt: 2026-04-14T00:49:19.444366
+workspaceId: wk_tryNest001
+folderId: fl_99RzUBgHbP
+authentication: {}
+authenticationType: null
+body:
+  text: |-
+    {
+      "name": "Fifa 24",
+      "publisher": "EA Games",
+      "genre": "simulation",
+      "releaseDate": "2023-10-19T17:13:00.000Z"
+    }
+bodyType: application/json
+description: ''
+headers:
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: CKh9wsNMmq
+method: POST
+name: Create
+sortPriority: 2000.0
+url: ${[ BASE_URL ]}/games/create
+urlParameters: []
