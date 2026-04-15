@@ -1,0 +1,26 @@
+type: http_request
+model: http_request
+id: rq_n3hJ9tB6Uz
+createdAt: 2026-04-14T00:42:49.797932
+updatedAt: 2026-04-15T00:36:49.757113
+workspaceId: wk_tryNest001
+folderId: fl_99RzUBgHbP
+authentication: {}
+authenticationType: null
+body: {}
+bodyType: null
+description: ''
+headers:
+- enabled: true
+  name: Authorization
+  value: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpYXQiOjE3NzYyMTMzNzAsImV4cCI6MTc3NjIyMDU3MH0.jAVCG3lU1jm2jJ22DyGLxCl5MKvYTdtc2GU52RZyLqg
+  id: QKRcF0aE27
+- enabled: true
+  name: ''
+  value: ''
+  id: 9xMuNtD32y
+method: DELETE
+name: Delete
+sortPriority: 4000.0
+url: ${[ BASE_URL ]}/games/847b71a3-9278-4e2c-9927-6b744bcf992e
+urlParameters: []
