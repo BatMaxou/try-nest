@@ -2,11 +2,11 @@ type: http_request
 model: http_request
 id: rq_login001
 createdAt: 2026-04-13T00:00:00
-updatedAt: 2026-04-14T21:29:49.985182
+updatedAt: 2026-04-15T20:12:31.015045179
 workspaceId: wk_tryNest001
 folderId: fl_auth001
 authentication: {}
-authenticationType: null
+authenticationType: none
 body:
   text: |-
     {

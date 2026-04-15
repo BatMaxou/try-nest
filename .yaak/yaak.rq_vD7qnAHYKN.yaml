@@ -2,11 +2,12 @@ type: http_request
 model: http_request
 id: rq_vD7qnAHYKN
 createdAt: 2026-04-14T01:47:23.462944
-updatedAt: 2026-04-14T01:48:59.791162
+updatedAt: 2026-04-15T20:15:00.209157902
 workspaceId: wk_tryNest001
 folderId: fl_fH49w2d4GH
-authentication: {}
-authenticationType: null
+authentication:
+  token: ${[ TOKEN ]}
+authenticationType: bearer
 body:
   text: |-
     {
