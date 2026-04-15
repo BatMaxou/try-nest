@@ -1,0 +1,18 @@
+type: http_request
+model: http_request
+id: rq_playerById001
+createdAt: 2026-04-14T01:00:00
+updatedAt: 2026-04-14T18:01:56.437766528
+workspaceId: wk_tryNest001
+folderId: fl_WFSxzmLnai
+authentication: {}
+authenticationType: null
+body: {}
+bodyType: null
+description: ''
+headers: []
+method: GET
+name: Player By Id
+sortPriority: 1000.0
+url: ${[ BASE_URL ]}/players/${[ LAST_PLAYER_ID ]}
+urlParameters: []

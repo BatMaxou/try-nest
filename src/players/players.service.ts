@@ -1,6 +1,7 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
+
 import { Player } from "./players.entity";
 
 @Injectable()
@@ -18,29 +19,18 @@ export class PlayersService {
     });
   }
 
-  public async findById(id: string) {
-    const player = await this.playersRepository.findOne({
-      where: { identifier: id },
+  public async findById(identifier: string) {
+    return this.playersRepository.findOne({
+      where: { identifier },
     });
-
-    if (!player) {
-      throw new NotFoundException("Player not found");
-    }
-
-    return player;
   }
 
-  public async getPlayerTournaments(id: string) {
+  public async findTournaments(identifier: string) {
     const player = await this.playersRepository.findOne({
-      where: { identifier: id },
+      where: { identifier },
       relations: ["tournaments"],
-      select: ["tournaments"],
     });
 
-    if (!player) {
-      throw new NotFoundException("Player not found");
-    }
-
-    return player.tournaments;
+    return player?.tournaments;
   }
 }
