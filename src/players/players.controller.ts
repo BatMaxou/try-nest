@@ -19,17 +19,6 @@ export class PlayersController {
     return this.playersService.findAll();
   }
 
-  @Get(":identifier/tournaments")
-  public async findTournaments(@Param("identifier") identifier: string) {
-    const player = await this.playersService.findTournaments(identifier);
-
-    if (!player) {
-      throw new NotFoundException();
-    }
-
-    return player.tournaments;
-  }
-
   @UseInterceptors(PlayerPrivacyInterceptor)
   @Get(":identifier")
   public async findById(@Param("identifier") identifier: string) {
@@ -40,5 +29,16 @@ export class PlayersController {
     }
 
     return player;
+  }
+
+  @Get(":identifier/tournaments")
+  public async findTournaments(@Param("identifier") identifier: string) {
+    const tournaments = await this.playersService.findTournaments(identifier);
+
+    if (!tournaments) {
+      throw new NotFoundException();
+    }
+
+    return tournaments;
   }
 }

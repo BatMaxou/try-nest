@@ -31,6 +31,6 @@ export class PlayersService {
       relations: ["tournaments"],
     });
 
-    return player;
+    return player?.tournaments;
   }
 }
