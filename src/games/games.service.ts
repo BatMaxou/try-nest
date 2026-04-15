@@ -33,15 +33,12 @@ export class GamesService {
       genre: body.genre,
     });
 
+    const game = await this.gamesRepository.findOne({
+      where: { identifier: newGame.identifiers[0]?.identifier as string },
+    });
     return {
       message: "Game created successfully",
-      game: {
-        identifier: newGame.identifiers[0]?.identifier as string,
-        name: body.name,
-        publisher: body.publisher,
-        releaseDate: body.releaseDate,
-        genre: body.genre,
-      },
+      game,
     };
   }
 
@@ -53,15 +50,12 @@ export class GamesService {
       genre: body.genre,
     });
 
+    const game = await this.gamesRepository.findOne({
+      where: { identifier: id },
+    });
+
     return {
-      message: "Game updated successfully",
-      game: {
-        identifier: id,
-        name: body.name,
-        publisher: body.publisher,
-        releaseDate: body.releaseDate,
-        genre: body.genre,
-      },
+      game,
     };
   }
 
