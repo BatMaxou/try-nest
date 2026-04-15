@@ -2,7 +2,7 @@ type: http_request
 model: http_request
 id: rq_login001
 createdAt: 2026-04-13T00:00:00
-updatedAt: 2026-04-13T18:55:06.038184571
+updatedAt: 2026-04-14T21:29:49.985182
 workspaceId: wk_tryNest001
 folderId: fl_auth001
 authentication: {}
@@ -20,6 +20,10 @@ headers:
   name: Content-Type
   value: application/json
   id: contentType001
+- enabled: true
+  name: ''
+  value: ''
+  id: DtmTFgcXMW
 method: POST
 name: Login
 sortPriority: 1.0

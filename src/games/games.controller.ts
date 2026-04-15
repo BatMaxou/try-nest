@@ -3,15 +3,18 @@ import {
   Controller,
   Delete,
   Get,
+  Headers,
   HttpCode,
   HttpStatus,
   Param,
   Post,
   Put,
+  UseGuards,
   ValidationPipe,
 } from "@nestjs/common";
 import { GamesService } from "./games.service";
 import { CreateGameRequest, UpdateGameRequest } from "./games.requests";
+import { AuthGuard } from "../auth/auth.guard";
 
 @Controller("games")
 export class GamesController {
@@ -27,6 +30,7 @@ export class GamesController {
     return this.gamesService.findById(id);
   }
 
+  @UseGuards(AuthGuard)
   @Post("create")
   @HttpCode(HttpStatus.CREATED)
   public async create(
@@ -35,6 +39,7 @@ export class GamesController {
     return this.gamesService.create(body);
   }
 
+  @UseGuards(AuthGuard)
   @Put(":id")
   @HttpCode(HttpStatus.OK)
   public async update(
@@ -44,6 +49,7 @@ export class GamesController {
     return this.gamesService.update(id, body);
   }
 
+  @UseGuards(AuthGuard)
   @Delete(":id")
   @HttpCode(HttpStatus.OK)
   public async delete(@Param("id") id: string) {

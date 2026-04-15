@@ -2,7 +2,7 @@ type: http_request
 model: http_request
 id: rq_Wz4Mj4KRnH
 createdAt: 2026-04-14T00:42:40.163189
-updatedAt: 2026-04-14T00:49:19.447153
+updatedAt: 2026-04-15T00:36:38.075952
 workspaceId: wk_tryNest001
 folderId: fl_99RzUBgHbP
 authentication: {}
@@ -22,6 +22,14 @@ headers:
   name: Content-Type
   value: application/json
   id: kKrZBsrbRB
+- enabled: true
+  name: Authorization
+  value: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpYXQiOjE3NzYyMTMzNzAsImV4cCI6MTc3NjIyMDU3MH0.jAVCG3lU1jm2jJ22DyGLxCl5MKvYTdtc2GU52RZyLqg
+  id: 4MURt28VyJ
+- enabled: true
+  name: ''
+  value: ''
+  id: jYpt9DMNK2
 method: PUT
 name: Update
 sortPriority: 3000.0
