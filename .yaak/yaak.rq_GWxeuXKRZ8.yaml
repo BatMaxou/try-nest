@@ -1,0 +1,18 @@
+type: http_request
+model: http_request
+id: rq_GWxeuXKRZ8
+createdAt: 2026-04-15T08:48:45.431143
+updatedAt: 2026-04-15T08:55:44.076288
+workspaceId: wk_tryNest001
+folderId: fl_WFSxzmLnai
+authentication: {}
+authenticationType: null
+body: {}
+bodyType: null
+description: ''
+headers: []
+method: GET
+name: Player
+sortPriority: 2333.3333333333335
+url: ${[ BASE_URL ]}/players/b9de64e0-e6c1-4969-8d8e-135bac527b07
+urlParameters: []

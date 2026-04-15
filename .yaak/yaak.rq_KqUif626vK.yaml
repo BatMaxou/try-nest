@@ -1,0 +1,18 @@
+type: http_request
+model: http_request
+id: rq_KqUif626vK
+createdAt: 2026-04-15T08:49:02.715029
+updatedAt: 2026-04-15T08:51:52.789979
+workspaceId: wk_tryNest001
+folderId: fl_WFSxzmLnai
+authentication: {}
+authenticationType: null
+body: {}
+bodyType: null
+description: ''
+headers: []
+method: GET
+name: Player Tournament
+sortPriority: 2333.3343333333337
+url: ${[ BASE_URL ]}/players/b9de64e0-e6c1-4969-8d8e-135bac527b07/tournaments
+urlParameters: []
