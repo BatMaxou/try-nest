@@ -8,6 +8,7 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
   ValidationPipe,
 } from "@nestjs/common";
 import { TournamentsService } from "./tournaments.service";
@@ -15,6 +16,7 @@ import {
   CreateTournamentRequest,
   UpdateTournamentRequest,
 } from "./tournaments.request";
+import { AuthGuard } from "src/auth/auth.guard";
 
 @Controller("tournaments")
 export class TournamentsController {
@@ -36,6 +38,7 @@ export class TournamentsController {
     return this.tournamentsService.create(body);
   }
 
+  @UseGuards(AuthGuard)
   @Put(":id")
   @HttpCode(HttpStatus.OK)
   public async update(
@@ -45,6 +48,7 @@ export class TournamentsController {
     return this.tournamentsService.update(id, body);
   }
 
+  @UseGuards(AuthGuard)
   @Delete(":id")
   @HttpCode(HttpStatus.OK)
   public async delete(@Param("id") id: string) {

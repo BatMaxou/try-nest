@@ -51,16 +51,13 @@ export class TournamentsService {
       game,
       maxPlayers: body.maxPlayers,
       startDate: body.startDate,
-      status: body.status,
+    });
+
+    const tournament = await this.tournamentsRepository.findOne({
+      where: { identifier: newTournament.identifiers[0]?.identifier as string },
     });
     return {
-      message: "Tournament created successfully",
-      tournament: {
-        identifier: newTournament.identifiers[0]?.identifier as string,
-        name: body.name,
-        game: game.name,
-        maxPlayers: body.maxPlayers,
-      },
+      tournament,
     };
   }
 
@@ -89,16 +86,11 @@ export class TournamentsService {
       status: body.status,
     });
 
+    const newTournament = await this.tournamentsRepository.findOne({
+      where: { identifier: id },
+    });
     return {
-      message: "Tournament updated successfully",
-      tournament: {
-        identifier: id,
-        name: body.name,
-        game: game,
-        maxPlayers: body.maxPlayers,
-        startDate: body.startDate,
-        status: body.status,
-      },
+      newTournament,
     };
   }
 

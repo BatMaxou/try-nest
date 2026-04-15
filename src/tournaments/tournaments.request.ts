@@ -29,9 +29,7 @@ export class CreateTournamentRequest {
   @IsDate()
   startDate: Date;
 
-  @IsEnum(TournamentStatus)
-  status: TournamentStatus;
-
+  @IsOptional()
   @IsArray()
   @IsUUID("4", { each: true })
   playerIds: string[];
