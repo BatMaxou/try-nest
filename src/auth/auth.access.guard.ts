@@ -6,17 +6,22 @@ import {
 } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { Request } from "express";
+import { Repository } from "typeorm";
+import { InjectRepository } from "@nestjs/typeorm";
 
 import { TokenPayload } from "./auth.types";
+import { Player } from "src/players/players.entity";
 
 @Injectable()
 export class AuthAccessGuard implements CanActivate {
-  constructor(private readonly jwtService: JwtService) {}
+  constructor(
+    @InjectRepository(Player)
+    private readonly playersRepository: Repository<Player>,
+    private readonly jwtService: JwtService,
+  ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request = context
-      .switchToHttp()
-      .getRequest<Request & { user?: TokenPayload }>();
+    const request = context.switchToHttp().getRequest<Request>();
 
     const token = this.extractTokenFromHeader(request);
     if (!token) {
@@ -24,7 +29,19 @@ export class AuthAccessGuard implements CanActivate {
     }
 
     try {
-      request.user = await this.jwtService.verifyAsync<TokenPayload>(token);
+      const tokenPayload =
+        await this.jwtService.verifyAsync<TokenPayload>(token);
+      const username = tokenPayload.username;
+      if (!username) {
+        throw new UnauthorizedException();
+      }
+
+      const maybePlayer = await this.getPlayer(username);
+      if (!maybePlayer) {
+        throw new UnauthorizedException();
+      }
+
+      request.user = maybePlayer;
     } catch {
       throw new UnauthorizedException();
     }
@@ -36,5 +53,11 @@ export class AuthAccessGuard implements CanActivate {
     const [type, token] = request.headers.authorization?.split(" ") ?? [];
 
     return type === "Bearer" ? token : undefined;
+  }
+
+  private getPlayer(username: string): Promise<Player | null> {
+    return this.playersRepository.findOne({
+      where: [{ username }],
+    });
   }
 }
