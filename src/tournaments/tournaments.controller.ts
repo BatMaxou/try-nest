@@ -56,9 +56,10 @@ export class TournamentsController {
     return this.tournamentsService.delete(id);
   }
 
-  // @Post(":id/join")
-  // @HttpCode(HttpStatus.OK)
-  // public async join(@Param("id") id: string, @Body(ValidationPipe) body: JoinTournamentRequest) {
-  //   return this.tournamentsService.join(id, body);
-  // }
+  @Post(":id/join")
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(AuthAccessGuard)
+  public async join(@Param("id") id: string) {
+    return this.tournamentsService.join(id);
+  }
 }
