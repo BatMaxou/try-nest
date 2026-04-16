@@ -8,13 +8,16 @@ import {
   Param,
   Post,
   Put,
+  Request as RequestDecorator,
   UseGuards,
   ValidationPipe,
 } from "@nestjs/common";
+import type { Request } from "express";
+
 import { GamesService } from "./games.service";
 import { CreateGameRequest, UpdateGameRequest } from "./games.requests";
 import { AuthAccessGuard } from "../auth/auth.access.guard";
-import { AuthAdminGuard } from "src/auth/auth.admin.guard";
+import { AuthAdminGuard } from "../auth/auth.admin.guard";
 
 @Controller("games")
 export class GamesController {
@@ -35,7 +38,10 @@ export class GamesController {
   @UseGuards(AuthAccessGuard, AuthAdminGuard)
   public async create(
     @Body(new ValidationPipe({ transform: true })) body: CreateGameRequest,
+    @RequestDecorator() request: Request,
   ) {
+    console.log(request.user);
+
     return this.gamesService.create(body);
   }
 
