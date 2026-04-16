@@ -1,4 +1,4 @@
-import { Inject, Injectable, NotFoundException, Scope } from "@nestjs/common";
+import { BadRequestException, Inject, Injectable, NotFoundException, Scope } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Game } from "../games/games.entity";
@@ -134,6 +134,10 @@ export class TournamentsService {
 
     if (!player) {
       throw new NotFoundException("Player not found");
+    }
+
+    if (tournament.players.some((p) => p.identifier === player.identifier)) {
+      throw new BadRequestException("Player already in tournament");
     }
 
     tournament.players = [...tournament.players, player];
