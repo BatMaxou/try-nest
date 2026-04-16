@@ -1,0 +1,41 @@
+entity: Tournament
+items:
+  tournament_lol:
+    name: LoL Championship 2026
+    game: "@game_lol"
+    maxPlayers: 8
+    startDate: "2026-05-15"
+    status: pending
+    players:
+      - "@player1"
+      - "@player2"
+      - "@player3"
+      - "@player4"
+      - "@player5"
+      - "@player6"
+      - "@player7"
+      - "@player8"
+
+  tournament_csgo:
+    name: CS2 Pro League
+    game: "@game_csgo"
+    maxPlayers: 4
+    startDate: "2026-06-01"
+    status: in_progress
+    players:
+      - "@player1"
+      - "@player3"
+      - "@player5"
+      - "@player7"
+
+  tournament_valorant:
+    name: Valorant Rising Stars
+    game: "@game_valorant"
+    maxPlayers: 4
+    startDate: "2026-04-01"
+    status: completed
+    players:
+      - "@player2"
+      - "@player4"
+      - "@player6"
+      - "@player8"

@@ -1,0 +1,56 @@
+entity: Match
+items:
+  # --- CS2 Pro League (in_progress) ---
+  match_csgo_r1_1:
+    tournament: "@tournament_csgo"
+    player1: "@player1"
+    player2: "@player3"
+    winner: "@player1"
+    score: "16-12"
+    round: 1
+    status: completed
+
+  match_csgo_r1_2:
+    tournament: "@tournament_csgo"
+    player1: "@player5"
+    player2: "@player7"
+    winner: "@player7"
+    score: "14-16"
+    round: 1
+    status: completed
+
+  match_csgo_final:
+    tournament: "@tournament_csgo"
+    player1: "@player1"
+    player2: "@player7"
+    score: "0-0"
+    round: 2
+    status: pending
+
+  # --- Valorant Rising Stars (completed) ---
+  match_val_r1_1:
+    tournament: "@tournament_valorant"
+    player1: "@player2"
+    player2: "@player4"
+    winner: "@player2"
+    score: "13-8"
+    round: 1
+    status: completed
+
+  match_val_r1_2:
+    tournament: "@tournament_valorant"
+    player1: "@player6"
+    player2: "@player8"
+    winner: "@player6"
+    score: "13-11"
+    round: 1
+    status: completed
+
+  match_val_final:
+    tournament: "@tournament_valorant"
+    player1: "@player2"
+    player2: "@player6"
+    winner: "@player2"
+    score: "13-5"
+    round: 2
+    status: completed

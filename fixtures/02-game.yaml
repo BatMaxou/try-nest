@@ -1,0 +1,37 @@
+entity: Game
+items:
+  game_lol:
+    name: League of Legends
+    publisher: Riot Games
+    releaseDate: "2009-10-27"
+    genre: strategy
+
+  game_csgo:
+    name: Counter-Strike 2
+    publisher: Valve
+    releaseDate: "2023-09-27"
+    genre: fps
+
+  game_valorant:
+    name: Valorant
+    publisher: Riot Games
+    releaseDate: "2020-06-02"
+    genre: fps
+
+  game_fortnite:
+    name: Fortnite
+    publisher: Epic Games
+    releaseDate: "2017-07-21"
+    genre: action
+
+  game_rocket_league:
+    name: Rocket League
+    publisher: Psyonix
+    releaseDate: "2015-07-07"
+    genre: sports
+
+  game_minecraft:
+    name: Minecraft
+    publisher: Mojang Studios
+    releaseDate: "2011-11-18"
+    genre: adventure
