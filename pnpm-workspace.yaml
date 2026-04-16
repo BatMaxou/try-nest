@@ -1,0 +1,2 @@
+allowBuilds:
+  typeorm-fixtures-cli: false

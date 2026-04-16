@@ -20,7 +20,8 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "fixtures:load": "fixtures-ts-node-commonjs load --dataSource=./dataSource.ts --sync ./fixtures"
   },
   "dependencies": {
     "@nestjs/common": "^11.1.18",
@@ -47,6 +48,7 @@
     "@types/jest": "^30.0.0",
     "@types/node": "^22.19.17",
     "@types/supertest": "^6.0.3",
+    "dotenv": "^17.4.1",
     "eslint": "^9.39.4",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
@@ -59,6 +61,7 @@
     "ts-loader": "^9.5.7",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
+    "typeorm-fixtures-cli": "^4.1.0",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.58.1"
   },

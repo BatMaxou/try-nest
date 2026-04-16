@@ -1,0 +1,48 @@
+entity: Player
+processor: ./processor/PlayerProcessor
+items:
+  player_admin:
+    username: admin
+    email: admin@tournament.com
+    password: azertyuiAZ123#
+    admin: true
+
+  player1:
+    username: shadowblade
+    email: shadowblade@gaming.com
+    password: azertyuiAZ123#
+
+  player2:
+    username: novaStrike
+    email: novastrike@gaming.com
+    password: azertyuiAZ123#
+
+  player3:
+    username: frostbyte
+    email: frostbyte@gaming.com
+    password: azertyuiAZ123#
+
+  player4:
+    username: blazeRunner
+    email: blazerunner@gaming.com
+    password: azertyuiAZ123#
+
+  player5:
+    username: vortexKing
+    email: vortexking@gaming.com
+    password: azertyuiAZ123#
+
+  player6:
+    username: pixelStorm
+    email: pixelstorm@gaming.com
+    password: azertyuiAZ123#
+
+  player7:
+    username: ironWolf
+    email: ironwolf@gaming.com
+    password: azertyuiAZ123#
+
+  player8:
+    username: cyberNinja
+    email: cyberninja@gaming.com
+    password: azertyuiAZ123#

@@ -25,6 +25,10 @@ vendor:
 	${run-node} pnpm install --frozen-lockfile --ignore-scripts=false
 .PHONY: front-vendor
 
+fixtures:
+	${run-node} pnpm run fixtures:load
+.PHONY: fixtures
+
 # --- LINTERS ---
 type-check:
 	@${node} pnpm run type:check
