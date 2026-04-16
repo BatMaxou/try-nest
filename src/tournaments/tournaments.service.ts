@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Inject, Injectable, NotFoundException, Scope } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Game } from "../games/games.entity";
@@ -7,14 +7,20 @@ import {
   CreateTournamentRequest,
   UpdateTournamentRequest,
 } from "./tournaments.request";
+import { REQUEST } from "@nestjs/core";
+import { Player } from "src/players/players.entity";
 
-@Injectable()
+@Injectable({ scope: Scope.REQUEST })
 export class TournamentsService {
   public constructor(
     @InjectRepository(Tournament)
     private readonly tournamentsRepository: Repository<Tournament>,
     @InjectRepository(Game)
     private readonly gamesRepository: Repository<Game>,
+    @InjectRepository(Player)
+    private readonly playersRepository: Repository<Player>,
+    @Inject(REQUEST)
+    private readonly request: Request,
   ) {}
 
   public async findAll() {
@@ -51,7 +57,6 @@ export class TournamentsService {
       game,
       maxPlayers: body.maxPlayers,
       startDate: body.startDate,
-      status: body.status,
     });
     return {
       message: "Tournament created successfully",
@@ -110,6 +115,32 @@ export class TournamentsService {
     };
   }
 
-  // public async join(id: string, body: JoinTournamentRequest) {
-  // }
+  public async join(id: string) {
+    const tournament = await this.tournamentsRepository.findOne({
+      where: { identifier: id },
+      relations: { players: true },
+    });
+
+    if (!tournament) {
+      throw new NotFoundException("Tournament not found");
+    }
+
+    const currentUserId = (this.request as Request & { user: Player }).user
+      ?.identifier;
+
+    const player = await this.playersRepository.findOne({
+      where: { identifier: currentUserId },
+    });
+
+    if (!player) {
+      throw new NotFoundException("Player not found");
+    }
+
+    tournament.players = [...tournament.players, player];
+    await this.tournamentsRepository.save(tournament);
+
+    return {
+      tournament,
+    };
+  }
 }

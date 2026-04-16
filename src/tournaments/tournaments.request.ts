@@ -28,13 +28,6 @@ export class CreateTournamentRequest {
   @Type(() => Date)
   @IsDate()
   startDate: Date;
-
-  @IsEnum(TournamentStatus)
-  status: TournamentStatus;
-
-  @IsArray()
-  @IsUUID("4", { each: true })
-  playerIds: string[];
 }
 
 export class UpdateTournamentRequest {
