@@ -15,6 +15,7 @@ import {
 } from "./tournaments.request";
 import { REQUEST } from "@nestjs/core";
 import { Player } from "src/players/players.entity";
+import { TournamentsGateway } from "./tournaments.gateway";
 
 @Injectable({ scope: Scope.REQUEST })
 export class TournamentsService {
@@ -27,6 +28,7 @@ export class TournamentsService {
     private readonly playersRepository: Repository<Player>,
     @Inject(REQUEST)
     private readonly request: Request,
+    private readonly tournamentsGateway: TournamentsGateway,
   ) {}
 
   public async findAll() {
@@ -92,6 +94,8 @@ export class TournamentsService {
       throw new NotFoundException("Game not found");
     }
 
+    const previousStatus = tournament.status;
+
     await this.tournamentsRepository.update(id, {
       name: body.name,
       game,
@@ -99,6 +103,14 @@ export class TournamentsService {
       startDate: body.startDate,
       status: body.status,
     });
+
+    if (body.status && body.status !== previousStatus) {
+      this.tournamentsGateway.emitStatusChanged(
+        id,
+        previousStatus,
+        body.status,
+      );
+    }
 
     return {
       message: "Tournament updated successfully",
