@@ -1,0 +1,24 @@
+type: websocket_request
+model: websocket_request
+id: wr_uTTpXeyVNy
+createdAt: 2026-04-17T18:46:42.918516439
+updatedAt: 2026-04-17T19:04:02.827388181
+workspaceId: wk_tryNest001
+folderId: fl_fH49w2d4GH
+authentication: {}
+authenticationType: null
+description: ''
+headers: []
+message: '3'
+name: Tournament Status Aware
+sortPriority: 1.0
+url: ws://localhost:3000/socket.io/
+urlParameters:
+- enabled: true
+  name: EIO
+  value: '4'
+  id: NcFM0QPWg8
+- enabled: true
+  name: transport
+  value: websocket
+  id: r23UDDKTYP
