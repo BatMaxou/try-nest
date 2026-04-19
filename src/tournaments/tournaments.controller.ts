@@ -8,12 +8,14 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UseGuards,
   ValidationPipe,
 } from "@nestjs/common";
 import { TournamentsService } from "./tournaments.service";
 import {
   CreateTournamentRequest,
+  FiltersTournamentRequest,
   UpdateTournamentRequest,
 } from "./tournaments.request";
 import { AuthAccessGuard } from "src/auth/auth.access.guard";
@@ -23,8 +25,11 @@ export class TournamentsController {
   public constructor(private readonly tournamentsService: TournamentsService) {}
 
   @Get()
-  public async findAll() {
-    return this.tournamentsService.findAll();
+  public async findAll(
+    @Query(new ValidationPipe({ transform: true }))
+    filters: FiltersTournamentRequest,
+  ) {
+    return this.tournamentsService.findAll(filters);
   }
 
   @Get(":id")

@@ -11,10 +11,12 @@ import { Game } from "../games/games.entity";
 import { Tournament } from "./tournaments.entity";
 import {
   CreateTournamentRequest,
+  FiltersTournamentRequest,
   UpdateTournamentRequest,
 } from "./tournaments.request";
 import { REQUEST } from "@nestjs/core";
 import { Player } from "src/players/players.entity";
+import { TournamentStatus } from "./tournaments.enum";
 
 @Injectable({ scope: Scope.REQUEST })
 export class TournamentsService {
@@ -29,12 +31,79 @@ export class TournamentsService {
     private readonly request: Request,
   ) {}
 
-  public async findAll() {
-    return this.tournamentsRepository.find({
-      order: {
-        name: "ASC",
-      },
-    });
+  public async findAll(filters?: FiltersTournamentRequest) {
+    const query = this.tournamentsRepository.createQueryBuilder("tournament");
+
+    const needsSubscribedCount =
+      filters?.fullPlayers === "true" ||
+      filters?.minSubscribedPlayers != null ||
+      filters?.maxSubscribedPlayers != null;
+
+    if (needsSubscribedCount) {
+      query
+        .leftJoin("tournament.players", "subscribedPlayer")
+        .groupBy("tournament.identifier")
+        .addGroupBy('"tournament"."maxPlayers"');
+    }
+
+    if (filters?.gameId) {
+      query.andWhere("tournament.game_id = :gameId", {
+        gameId: filters.gameId,
+      });
+    }
+
+    if (filters?.status) {
+      query.andWhere("tournament.status = :status", {
+        status: filters.status,
+      });
+    }
+
+    if (filters?.name) {
+      query.andWhere("tournament.name = :name", {
+        name: filters.name,
+      });
+    }
+
+    if (filters?.isEnded === "true") {
+      query.andWhere("tournament.status = :endedStatus", {
+        endedStatus: TournamentStatus.COMPLETED,
+      });
+    }
+
+    if (filters?.startDate) {
+      query.andWhere("tournament.startDate >= :startDate", {
+        startDate: filters.startDate,
+      });
+    }
+
+    if (filters?.maxPlayers != null) {
+      query.andWhere('"tournament"."maxPlayers" <= :maxPlayers', {
+        maxPlayers: filters.maxPlayers,
+      });
+    }
+
+    if (needsSubscribedCount && filters) {
+      const suscribedPlayers =
+        'COUNT(DISTINCT "subscribedPlayer"."identifier")';
+      const havings: string[] = [];
+      const havingParams: Record<string, number> = {};
+
+      if (filters.fullPlayers === "true") {
+        havings.push(`${suscribedPlayers} = "tournament"."maxPlayers"`);
+      }
+      if (filters.minSubscribedPlayers != null) {
+        havings.push(`${suscribedPlayers} >= :minSubscribedPlayers`);
+        havingParams.minSubscribedPlayers = filters.minSubscribedPlayers;
+      }
+      if (filters.maxSubscribedPlayers != null) {
+        havings.push(`${suscribedPlayers} <= :maxSubscribedPlayers`);
+        havingParams.maxSubscribedPlayers = filters.maxSubscribedPlayers;
+      }
+
+      query.having(havings.join(" AND "), havingParams);
+    }
+
+    return query.orderBy("tournament.startDate", "DESC").getMany();
   }
 
   public async findById(id: string) {
