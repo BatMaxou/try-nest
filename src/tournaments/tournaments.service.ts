@@ -18,6 +18,9 @@ import { REQUEST } from "@nestjs/core";
 import { Player } from "src/players/players.entity";
 import { TournamentStatus } from "./tournaments.enum";
 
+/** Nombre d’inscrits (M2M) — sous-requête pour éviter GROUP BY + SELECT * (eager `game`, etc.). */
+const subscribedPlayerCountSql = `(SELECT COUNT(*)::int FROM tournaments_players tp WHERE tp.tournament_id = "tournament"."identifier")`;
+
 @Injectable({ scope: Scope.REQUEST })
 export class TournamentsService {
   public constructor(
@@ -33,18 +36,6 @@ export class TournamentsService {
 
   public async findAll(filters?: FiltersTournamentRequest) {
     const query = this.tournamentsRepository.createQueryBuilder("tournament");
-
-    const needsSubscribedCount =
-      filters?.fullPlayers === "true" ||
-      filters?.minSubscribedPlayers != null ||
-      filters?.maxSubscribedPlayers != null;
-
-    if (needsSubscribedCount) {
-      query
-        .leftJoin("tournament.players", "subscribedPlayer")
-        .groupBy("tournament.identifier")
-        .addGroupBy('"tournament"."maxPlayers"');
-    }
 
     if (filters?.gameId) {
       query.andWhere("tournament.game_id = :gameId", {
@@ -82,25 +73,20 @@ export class TournamentsService {
       });
     }
 
-    if (needsSubscribedCount && filters) {
-      const suscribedPlayers =
-        'COUNT(DISTINCT "subscribedPlayer"."identifier")';
-      const havings: string[] = [];
-      const havingParams: Record<string, number> = {};
+    if (filters?.fullPlayers === "true") {
+      query.andWhere(`${subscribedPlayerCountSql} = "tournament"."maxPlayers"`);
+    }
 
-      if (filters.fullPlayers === "true") {
-        havings.push(`${suscribedPlayers} = "tournament"."maxPlayers"`);
-      }
-      if (filters.minSubscribedPlayers != null) {
-        havings.push(`${suscribedPlayers} >= :minSubscribedPlayers`);
-        havingParams.minSubscribedPlayers = filters.minSubscribedPlayers;
-      }
-      if (filters.maxSubscribedPlayers != null) {
-        havings.push(`${suscribedPlayers} <= :maxSubscribedPlayers`);
-        havingParams.maxSubscribedPlayers = filters.maxSubscribedPlayers;
-      }
+    if (filters?.minSubscribedPlayers != null) {
+      query.andWhere(`${subscribedPlayerCountSql} >= :minSubscribedPlayers`, {
+        minSubscribedPlayers: filters.minSubscribedPlayers,
+      });
+    }
 
-      query.having(havings.join(" AND "), havingParams);
+    if (filters?.maxSubscribedPlayers != null) {
+      query.andWhere(`${subscribedPlayerCountSql} <= :maxSubscribedPlayers`, {
+        maxSubscribedPlayers: filters.maxSubscribedPlayers,
+      });
     }
 
     return query.orderBy("tournament.startDate", "DESC").getMany();
