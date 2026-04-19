@@ -16,6 +16,7 @@ import {
 } from "./tournaments.request";
 import { REQUEST } from "@nestjs/core";
 import { Player } from "src/players/players.entity";
+import { TournamentsGateway } from "./tournaments.gateway";
 import { TournamentStatus } from "./tournaments.enum";
 
 /** Nombre d’inscrits (M2M) — sous-requête pour éviter GROUP BY + SELECT * (eager `game`, etc.). */
@@ -32,6 +33,7 @@ export class TournamentsService {
     private readonly playersRepository: Repository<Player>,
     @Inject(REQUEST)
     private readonly request: Request,
+    private readonly tournamentsGateway: TournamentsGateway,
   ) {}
 
   public async findAll(filters?: FiltersTournamentRequest) {
@@ -147,6 +149,8 @@ export class TournamentsService {
       throw new NotFoundException("Game not found");
     }
 
+    const previousStatus = tournament.status;
+
     await this.tournamentsRepository.update(id, {
       name: body.name,
       game,
@@ -154,6 +158,14 @@ export class TournamentsService {
       startDate: body.startDate,
       status: body.status,
     });
+
+    if (body.status && body.status !== previousStatus) {
+      this.tournamentsGateway.emitStatusChanged(
+        id,
+        previousStatus,
+        body.status,
+      );
+    }
 
     return {
       message: "Tournament updated successfully",
