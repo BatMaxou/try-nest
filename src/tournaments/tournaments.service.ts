@@ -11,11 +11,16 @@ import { Game } from "../games/games.entity";
 import { Tournament } from "./tournaments.entity";
 import {
   CreateTournamentRequest,
+  FiltersTournamentRequest,
   UpdateTournamentRequest,
 } from "./tournaments.request";
 import { REQUEST } from "@nestjs/core";
 import { Player } from "src/players/players.entity";
 import { TournamentsGateway } from "./tournaments.gateway";
+import { TournamentStatus } from "./tournaments.enum";
+
+/** Nombre d’inscrits (M2M) — sous-requête pour éviter GROUP BY + SELECT * (eager `game`, etc.). */
+const subscribedPlayerCountSql = `(SELECT COUNT(*)::int FROM tournaments_players tp WHERE tp.tournament_id = "tournament"."identifier")`;
 
 @Injectable({ scope: Scope.REQUEST })
 export class TournamentsService {
@@ -31,12 +36,62 @@ export class TournamentsService {
     private readonly tournamentsGateway: TournamentsGateway,
   ) {}
 
-  public async findAll() {
-    return this.tournamentsRepository.find({
-      order: {
-        name: "ASC",
-      },
-    });
+  public async findAll(filters?: FiltersTournamentRequest) {
+    const query = this.tournamentsRepository.createQueryBuilder("tournament");
+
+    if (filters?.gameId) {
+      query.andWhere("tournament.game_id = :gameId", {
+        gameId: filters.gameId,
+      });
+    }
+
+    if (filters?.status) {
+      query.andWhere("tournament.status = :status", {
+        status: filters.status,
+      });
+    }
+
+    if (filters?.name) {
+      query.andWhere("tournament.name = :name", {
+        name: filters.name,
+      });
+    }
+
+    if (filters?.isEnded === "true") {
+      query.andWhere("tournament.status = :endedStatus", {
+        endedStatus: TournamentStatus.COMPLETED,
+      });
+    }
+
+    if (filters?.startDate) {
+      query.andWhere("tournament.startDate >= :startDate", {
+        startDate: filters.startDate,
+      });
+    }
+
+    if (filters?.maxPlayers != null) {
+      query.andWhere('"tournament"."maxPlayers" <= :maxPlayers', {
+        maxPlayers: filters.maxPlayers,
+      });
+    }
+
+    if (filters?.fullPlayers === "true") {
+      query.andWhere(`${subscribedPlayerCountSql} = "tournament"."maxPlayers"`);
+    }
+
+    if (filters?.minSubscribedPlayers != null) {
+      query.andWhere(`${subscribedPlayerCountSql} >= :minSubscribedPlayers`, {
+        minSubscribedPlayers: filters.minSubscribedPlayers,
+      });
+    }
+
+    if (filters?.maxSubscribedPlayers != null) {
+      query.andWhere(`${subscribedPlayerCountSql} <= :maxSubscribedPlayers`, {
+        maxSubscribedPlayers: filters.maxSubscribedPlayers,
+      });
+    }
+
+    return query.orderBy("tournament.startDate", "DESC").getMany();
   }
 
   public async findById(id: string) {
