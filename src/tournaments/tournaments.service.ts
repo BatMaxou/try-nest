@@ -106,6 +106,22 @@ export class TournamentsService {
     return tournament;
   }
 
+  public async findMatches(id: string) {
+    const tournament = await this.tournamentsRepository.findOne({
+      where: { identifier: id },
+      relations: { matches: true },
+    });
+
+    if (!tournament) {
+      throw new NotFoundException("Tournament not found");
+    }
+
+    return {
+      message: "Matches found successfully",
+      matches: tournament.matches,
+    };
+  }
+
   public async create(body: CreateTournamentRequest) {
     const game = await this.gamesRepository.findOne({
       where: { identifier: body.gameId },

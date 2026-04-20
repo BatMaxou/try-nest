@@ -37,6 +37,11 @@ export class TournamentsController {
     return this.tournamentsService.findById(id);
   }
 
+  @Get(":id/matches")
+  public async findMatches(@Param("id") id: string) {
+    return this.tournamentsService.findMatches(id);
+  }
+
   @Post("create")
   @HttpCode(HttpStatus.CREATED)
   @UseGuards(AuthAccessGuard)
