@@ -6,18 +6,26 @@ import {
 } from "@nestjs/common";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
+
 import { Player } from "./players.entity";
+
+type PublicPlayer = Pick<Player, "identifier" | "username" | "avatar">;
 
 @Injectable()
 export class PlayerPrivacyInterceptor implements NestInterceptor {
-  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+  intercept(
+    context: ExecutionContext,
+    next: CallHandler,
+  ): Observable<PublicPlayer | PublicPlayer[]> {
     return next.handle().pipe(
-      map((data) => {
+      map((data: unknown) => {
         if (Array.isArray(data)) {
           return data.map((item: unknown) => {
             if (item instanceof Player) {
               return this.#getPublicData(item);
             }
+
+            throw new Error("Invalid context call of PlayerPrivacyInterceptor");
           });
         }
 
@@ -30,7 +38,7 @@ export class PlayerPrivacyInterceptor implements NestInterceptor {
     );
   }
 
-  #getPublicData(player: Player) {
+  #getPublicData(player: Player): PublicPlayer {
     const { identifier, username, avatar } = player;
 
     return {

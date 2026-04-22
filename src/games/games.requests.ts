@@ -1,5 +1,6 @@
 import { Type } from "class-transformer";
 import { IsString, IsDate, Length, IsEnum } from "class-validator";
+
 import { GameGenre } from "./games.enums";
 
 export class CreateGameRequest {

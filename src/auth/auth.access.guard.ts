@@ -10,7 +10,7 @@ import { Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
 
 import { TokenPayload } from "./auth.types";
-import { Player } from "src/players/players.entity";
+import { Player } from "../players/players.entity";
 
 @Injectable()
 export class AuthAccessGuard implements CanActivate {

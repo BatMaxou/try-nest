@@ -10,9 +10,9 @@ import {
   Length,
   Min,
 } from "class-validator";
+import { Transform, Type } from "class-transformer";
 
 import { TournamentStatus } from "./tournaments.enum";
-import { Transform, Type } from "class-transformer";
 
 function emptyQueryToUndefined({
   value,
