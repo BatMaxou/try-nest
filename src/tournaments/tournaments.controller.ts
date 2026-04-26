@@ -12,13 +12,14 @@ import {
   UseGuards,
   ValidationPipe,
 } from "@nestjs/common";
+
 import { TournamentsService } from "./tournaments.service";
 import {
   CreateTournamentRequest,
   FiltersTournamentRequest,
   UpdateTournamentRequest,
 } from "./tournaments.request";
-import { AuthAccessGuard } from "src/auth/auth.access.guard";
+import { AuthAccessGuard } from "../auth/auth.access.guard";
 
 @Controller("tournaments")
 export class TournamentsController {

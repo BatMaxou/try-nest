@@ -7,6 +7,8 @@ import {
 } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
+import { REQUEST } from "@nestjs/core";
+
 import { Game } from "../games/games.entity";
 import { Tournament } from "./tournaments.entity";
 import {
@@ -14,8 +16,7 @@ import {
   FiltersTournamentRequest,
   UpdateTournamentRequest,
 } from "./tournaments.request";
-import { REQUEST } from "@nestjs/core";
-import { Player } from "src/players/players.entity";
+import { Player } from "../players/players.entity";
 import { TournamentsGateway } from "./tournaments.gateway";
 import { TournamentStatus } from "./tournaments.enum";
 

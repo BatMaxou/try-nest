@@ -3,7 +3,7 @@ import { Request } from "express";
 import { Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
 
-import { Player } from "src/players/players.entity";
+import { Player } from "../players/players.entity";
 
 @Injectable()
 export class AuthAdminGuard implements CanActivate {

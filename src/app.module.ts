@@ -1,6 +1,7 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConfigModule, ConfigService } from "@nestjs/config";
+
 import { TournamentsModule } from "./tournaments/tournaments.module";
 import { PlayersModule } from "./players/players.module";
 import { MatchesModule } from "./matches/matches.module";
