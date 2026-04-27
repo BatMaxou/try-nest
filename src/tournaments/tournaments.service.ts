@@ -17,6 +17,7 @@ import {
   UpdateTournamentRequest,
 } from "./tournaments.request";
 import { Player } from "../players/players.entity";
+import { PlayersService } from "../players/players.service";
 import { TournamentsGateway } from "./tournaments.gateway";
 import { TournamentStatus } from "./tournaments.enum";
 
@@ -30,8 +31,7 @@ export class TournamentsService {
     private readonly tournamentsRepository: Repository<Tournament>,
     @InjectRepository(Game)
     private readonly gamesRepository: Repository<Game>,
-    @InjectRepository(Player)
-    private readonly playersRepository: Repository<Player>,
+    private readonly playersService: PlayersService,
     @Inject(REQUEST)
     private readonly request: Request,
     private readonly tournamentsGateway: TournamentsGateway,
@@ -218,9 +218,9 @@ export class TournamentsService {
     const currentUserId = (this.request as Request & { user: Player }).user
       ?.identifier;
 
-    const player = await this.playersRepository.findOne({
-      where: { identifier: currentUserId },
-    });
+    const player = currentUserId
+      ? await this.playersService.findById(currentUserId)
+      : null;
 
     if (!player) {
       throw new NotFoundException("Player not found");

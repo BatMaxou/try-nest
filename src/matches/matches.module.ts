@@ -4,10 +4,10 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { Match } from "./matches.entity";
 import { MatchesController } from "./matches.controller";
 import { MatchesService } from "./matches.service";
-import { Player } from "../players/players.entity";
+import { PlayersModule } from "../players/players.module";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Match, Player])],
+  imports: [TypeOrmModule.forFeature([Match]), PlayersModule],
   providers: [MatchesService],
   controllers: [MatchesController],
 })

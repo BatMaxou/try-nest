@@ -3,30 +3,25 @@ import {
   Injectable,
   UnauthorizedException,
 } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
 import { JwtService } from "@nestjs/jwt";
 
-import { Player } from "../players/players.entity";
 import { LoginRequest, RegisterRequest } from "./auth.requests";
 import { PasswordHasherService } from "./auth.password-hasher.service";
+import { PlayersService } from "../players/players.service";
 
 @Injectable()
 export class AuthService {
   public constructor(
-    @InjectRepository(Player)
-    private readonly playersRepository: Repository<Player>,
+    private readonly playersService: PlayersService,
     private readonly passwordHasher: PasswordHasherService,
     private readonly jwtService: JwtService,
   ) {}
 
   public async register(request: RegisterRequest) {
-    const existing = await this.playersRepository.findOne({
-      where: [
-        { email: request.email.toLowerCase().trim() },
-        { username: request.username },
-      ],
-    });
+    const existing = await this.playersService.findByUsernameOrEmail(
+      request.username,
+      request.email,
+    );
 
     if (existing) {
       throw new ConflictException("User already exists");
@@ -34,21 +29,19 @@ export class AuthService {
 
     const password = this.passwordHasher.createHash(request.password);
 
-    await this.playersRepository.insert({
-      username: request.username,
-      email: request.email.toLowerCase().trim(),
+    await this.playersService.create(
+      request.username,
+      request.email,
       password,
-      avatar: request.avatar,
-    });
+      request.avatar,
+    );
   }
 
   public async login(request: LoginRequest) {
-    const player = await this.playersRepository.findOne({
-      where: [
-        { email: request.identifier.toLowerCase().trim() },
-        { username: request.identifier },
-      ],
-    });
+    const player = await this.playersService.findByUsernameOrEmail(
+      request.identifier,
+      request.identifier,
+    );
 
     if (!player) {
       throw new UnauthorizedException("Invalid credentials");

@@ -19,9 +19,21 @@ export class PlayersService {
     });
   }
 
+  public async findByUsername(username: string): Promise<Player | null> {
+    return this.playersRepository.findOne({
+      where: [{ username }],
+    });
+  }
+
   public async findById(identifier: string) {
     return this.playersRepository.findOne({
       where: { identifier },
+    });
+  }
+
+  public async findByUsernameOrEmail(username: string, email: string) {
+    return await this.playersRepository.findOne({
+      where: [{ email: email.toLowerCase().trim() }, { username: username }],
     });
   }
 
@@ -32,5 +44,19 @@ export class PlayersService {
     });
 
     return player?.tournaments;
+  }
+
+  public async create(
+    username: string,
+    email: string,
+    password: string,
+    avatar?: string,
+  ) {
+    await this.playersRepository.insert({
+      username,
+      email: email.toLowerCase().trim(),
+      password,
+      avatar,
+    });
   }
 }

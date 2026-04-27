@@ -1,16 +1,15 @@
 import { Module } from "@nestjs/common";
-import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { JwtModule } from "@nestjs/jwt";
 
-import { Player } from "../players/players.entity";
 import { AuthService } from "./auth.service";
 import { AuthController } from "./auth.controller";
 import { PasswordHasherService } from "./auth.password-hasher.service";
+import { PlayersModule } from "../players/players.module";
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Player]),
+    PlayersModule,
     JwtModule.registerAsync({
       global: true,
       imports: [ConfigModule],
