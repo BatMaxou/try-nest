@@ -2,7 +2,7 @@ type: http_request
 model: http_request
 id: rq_4ENZ4ATATQ
 createdAt: 2026-04-14T00:13:48.483710
-updatedAt: 2026-04-15T20:12:19.928429734
+updatedAt: 2026-04-27T07:38:58.608016674
 workspaceId: wk_tryNest001
 folderId: fl_99RzUBgHbP
 authentication:
@@ -34,5 +34,5 @@ headers:
 method: POST
 name: Create
 sortPriority: 2000.0
-url: ${[ BASE_URL ]}/games/create
+url: ${[ BASE_URL ]}/games
 urlParameters: []

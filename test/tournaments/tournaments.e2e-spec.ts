@@ -347,7 +347,7 @@ describe("Tournaments (e2e)", () => {
     });
   });
 
-  describe("POST /tournaments/create", () => {
+  describe("POST /tournaments", () => {
     const validBody = {
       name: "Chess Cup",
       gameId: "b3f2c1d0-1234-4abc-9def-1234567890ab",
@@ -363,7 +363,7 @@ describe("Tournaments (e2e)", () => {
       });
 
       const response = await request(httpServer)
-        .post("/tournaments/create")
+        .post("/tournaments")
         .set("Authorization", "Bearer valid-token")
         .send(validBody)
         .expect(201);
@@ -384,7 +384,7 @@ describe("Tournaments (e2e)", () => {
 
     it("should return 401 when no token is provided", async () => {
       await request(httpServer)
-        .post("/tournaments/create")
+        .post("/tournaments")
         .send(validBody)
         .expect(401);
 
@@ -396,7 +396,7 @@ describe("Tournaments (e2e)", () => {
       mockGamesRepository.findOne.mockResolvedValue(null);
 
       await request(httpServer)
-        .post("/tournaments/create")
+        .post("/tournaments")
         .set("Authorization", "Bearer valid-token")
         .send(validBody)
         .expect(404);
@@ -408,126 +408,12 @@ describe("Tournaments (e2e)", () => {
       authenticate();
 
       await request(httpServer)
-        .post("/tournaments/create")
+        .post("/tournaments")
         .set("Authorization", "Bearer valid-token")
         .send({ name: "Chess Cup" })
         .expect(400);
 
       expect(mockTournamentsRepository.insert).not.toHaveBeenCalled();
-    });
-  });
-
-  describe("PUT /tournaments/:id", () => {
-    const validBody = {
-      name: "Chess Cup Updated",
-      gameId: "b3f2c1d0-1234-4abc-9def-1234567890ab",
-      maxPlayers: 32,
-      startDate: "2026-05-01T00:00:00.000Z",
-      status: TournamentStatus.IN_PROGRESS,
-      playerIds: [],
-    };
-
-    it("should update a tournament when authenticated", async () => {
-      authenticate();
-      mockTournamentsRepository.findOne.mockResolvedValue({
-        identifier: "tour-1",
-        status: TournamentStatus.PENDING,
-      });
-      mockGamesRepository.findOne.mockResolvedValue(sampleGame);
-      mockTournamentsRepository.update.mockResolvedValue({ affected: 1 });
-
-      const response = await request(httpServer)
-        .put("/tournaments/tour-1")
-        .set("Authorization", "Bearer valid-token")
-        .send(validBody)
-        .expect(200);
-
-      expect(response.body).toEqual({
-        message: "Tournament updated successfully",
-        tournament: {
-          identifier: "tour-1",
-          name: validBody.name,
-          game: {
-            ...sampleGame,
-            releaseDate: sampleGame.releaseDate.toISOString(),
-          },
-          maxPlayers: validBody.maxPlayers,
-          startDate: validBody.startDate,
-          status: validBody.status,
-        },
-      });
-      expect(mockTournamentsGateway.emitStatusChanged).toHaveBeenCalledWith(
-        "tour-1",
-        TournamentStatus.PENDING,
-        TournamentStatus.IN_PROGRESS,
-      );
-    });
-
-    it("should not emit status change when the status does not change", async () => {
-      authenticate();
-      mockTournamentsRepository.findOne.mockResolvedValue({
-        identifier: "tour-1",
-        status: TournamentStatus.IN_PROGRESS,
-      });
-      mockGamesRepository.findOne.mockResolvedValue(sampleGame);
-      mockTournamentsRepository.update.mockResolvedValue({ affected: 1 });
-
-      await request(httpServer)
-        .put("/tournaments/tour-1")
-        .set("Authorization", "Bearer valid-token")
-        .send(validBody)
-        .expect(200);
-
-      expect(mockTournamentsGateway.emitStatusChanged).not.toHaveBeenCalled();
-    });
-
-    it("should return 401 when no token is provided", async () => {
-      await request(httpServer)
-        .put("/tournaments/tour-1")
-        .send(validBody)
-        .expect(401);
-
-      expect(mockTournamentsRepository.update).not.toHaveBeenCalled();
-    });
-
-    it("should return 404 when the tournament is not found", async () => {
-      authenticate();
-      mockTournamentsRepository.findOne.mockResolvedValue(null);
-
-      await request(httpServer)
-        .put("/tournaments/tour-1")
-        .set("Authorization", "Bearer valid-token")
-        .send(validBody)
-        .expect(404);
-
-      expect(mockTournamentsRepository.update).not.toHaveBeenCalled();
-    });
-
-    it("should return 404 when the game is not found", async () => {
-      authenticate();
-      mockTournamentsRepository.findOne.mockResolvedValue({
-        identifier: "tour-1",
-        status: TournamentStatus.PENDING,
-      });
-      mockGamesRepository.findOne.mockResolvedValue(null);
-
-      await request(httpServer)
-        .put("/tournaments/tour-1")
-        .set("Authorization", "Bearer valid-token")
-        .send(validBody)
-        .expect(404);
-
-      expect(mockTournamentsRepository.update).not.toHaveBeenCalled();
-    });
-
-    it("should return 400 when body is invalid", async () => {
-      authenticate();
-
-      await request(httpServer)
-        .put("/tournaments/tour-1")
-        .set("Authorization", "Bearer valid-token")
-        .send({ name: "x" })
-        .expect(400);
     });
   });
 

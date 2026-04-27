@@ -43,7 +43,7 @@ export class TournamentsController {
     return this.tournamentsService.findMatches(id);
   }
 
-  @Post("create")
+  @Post()
   @HttpCode(HttpStatus.CREATED)
   @UseGuards(AuthAccessGuard)
   public async create(@Body(ValidationPipe) body: CreateTournamentRequest) {

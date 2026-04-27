@@ -1,0 +1,29 @@
+type: http_request
+model: http_request
+id: rq_matchCreate001
+createdAt: 2026-04-27T00:00:00
+updatedAt: 2026-04-27T07:52:09.331148649
+workspaceId: wk_tryNest001
+folderId: fl_matches001
+authentication:
+  token: ${[ TOKEN ]}
+authenticationType: bearer
+body:
+  text: |-
+    {
+      "tournamentId": "${[ LAST_TOURNAMENT_ID ]}",
+      "player1Id": "617f1edb-51ce-4b34-8f9a-986be309cc49",
+      "player2Id": "c20358c4-1232-4842-b4d9-3a5cd92c63d5"
+    }
+bodyType: application/json
+description: ''
+headers:
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: matchCreateCT01
+method: POST
+name: Create
+sortPriority: 500.0
+url: ${[ BASE_URL ]}/matches
+urlParameters: []

@@ -2,7 +2,7 @@ type: websocket_request
 model: websocket_request
 id: wr_uTTpXeyVNy
 createdAt: 2026-04-17T18:46:42.918516439
-updatedAt: 2026-04-17T19:04:02.827388181
+updatedAt: 2026-04-27T08:12:55.926421952
 workspaceId: wk_tryNest001
 folderId: fl_fH49w2d4GH
 authentication: {}
