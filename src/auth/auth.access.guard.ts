@@ -6,17 +6,15 @@ import {
 } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { Request } from "express";
-import { Repository } from "typeorm";
-import { InjectRepository } from "@nestjs/typeorm";
 
 import { TokenPayload } from "./auth.types";
 import { Player } from "../players/players.entity";
+import { PlayersService } from "../players/players.service";
 
 @Injectable()
 export class AuthAccessGuard implements CanActivate {
   constructor(
-    @InjectRepository(Player)
-    private readonly playersRepository: Repository<Player>,
+    private readonly playersService: PlayersService,
     private readonly jwtService: JwtService,
   ) {}
 
@@ -56,8 +54,6 @@ export class AuthAccessGuard implements CanActivate {
   }
 
   private getPlayer(username: string): Promise<Player | null> {
-    return this.playersRepository.findOne({
-      where: [{ username }],
-    });
+    return this.playersService.findByUsername(username);
   }
 }
