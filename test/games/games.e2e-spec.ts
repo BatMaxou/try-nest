@@ -152,7 +152,7 @@ describe("Games (e2e)", () => {
     });
   });
 
-  describe("POST /games/create", () => {
+  describe("POST /games", () => {
     const validBody = {
       name: "Chess",
       publisher: "Classic",
@@ -180,7 +180,7 @@ describe("Games (e2e)", () => {
       mockGamesRepository.findOne.mockResolvedValue(createdGame);
 
       const response = await request(httpServer)
-        .post("/games/create")
+        .post("/games")
         .set("Authorization", "Bearer valid-token")
         .send(validBody)
         .expect(201);
@@ -202,10 +202,7 @@ describe("Games (e2e)", () => {
     });
 
     it("should return 401 when no token is provided", async () => {
-      await request(httpServer)
-        .post("/games/create")
-        .send(validBody)
-        .expect(401);
+      await request(httpServer).post("/games").send(validBody).expect(401);
 
       expect(mockGamesRepository.insert).not.toHaveBeenCalled();
     });
@@ -214,7 +211,7 @@ describe("Games (e2e)", () => {
       mockJwtService.verifyAsync.mockRejectedValue(new Error("invalid"));
 
       await request(httpServer)
-        .post("/games/create")
+        .post("/games")
         .set("Authorization", "Bearer invalid-token")
         .send(validBody)
         .expect(401);
@@ -229,7 +226,7 @@ describe("Games (e2e)", () => {
       mockPlayersRepository.findOne.mockResolvedValue(regularPlayer);
 
       await request(httpServer)
-        .post("/games/create")
+        .post("/games")
         .set("Authorization", "Bearer valid-token")
         .send(validBody)
         .expect(403);
@@ -244,7 +241,7 @@ describe("Games (e2e)", () => {
       mockPlayersRepository.findOne.mockResolvedValue(adminPlayer);
 
       await request(httpServer)
-        .post("/games/create")
+        .post("/games")
         .set("Authorization", "Bearer valid-token")
         .send({ name: "Chess" })
         .expect(400);

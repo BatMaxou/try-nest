@@ -2,7 +2,7 @@ type: http_request
 model: http_request
 id: rq_wknBjTU5xX
 createdAt: 2026-04-14T01:32:53.009157
-updatedAt: 2026-04-15T20:14:52.286170950
+updatedAt: 2026-04-27T07:42:46.297212521
 workspaceId: wk_tryNest001
 folderId: fl_fH49w2d4GH
 authentication:
@@ -12,7 +12,7 @@ body:
   text: |-
     {
       "name": "Coupe du printemps 2026",
-      "gameId": "f7590a5b-89dc-495d-a650-1a58f2f170df",
+      "gameId": "10970947-5f0b-446e-86e8-a81763ef0772",
       "maxPlayers": 16,
       "startDate": "2026-05-01T18:00:00.000Z"
     }
@@ -26,5 +26,5 @@ headers:
 method: POST
 name: Create
 sortPriority: 2333.3333333333335
-url: ${[ BASE_URL ]}/tournaments/create
+url: ${[ BASE_URL ]}/tournaments
 urlParameters: []

@@ -7,18 +7,13 @@ import {
   HttpStatus,
   Param,
   Post,
-  Put,
   UseGuards,
   ValidationPipe,
 } from "@nestjs/common";
 
 import { AuthAccessGuard } from "../auth/auth.access.guard";
 import { AuthAdminGuard } from "../auth/auth.admin.guard";
-import {
-  CreateMatchRequest,
-  ResultMatchRequest,
-  UpdateMatchRequest,
-} from "./matches.requests";
+import { CreateMatchRequest, ResultMatchRequest } from "./matches.requests";
 import { MatchesService } from "./matches.service";
 
 @Controller("matches")
@@ -35,23 +30,13 @@ export class MatchesController {
     return this.matchesService.findById(id);
   }
 
-  @Post("create")
+  @Post()
   @HttpCode(HttpStatus.CREATED)
   @UseGuards(AuthAccessGuard, AuthAdminGuard)
   public create(
     @Body(new ValidationPipe({ transform: true })) body: CreateMatchRequest,
   ) {
     return this.matchesService.create(body);
-  }
-
-  @Put(":id")
-  @HttpCode(HttpStatus.OK)
-  @UseGuards(AuthAccessGuard, AuthAdminGuard)
-  public update(
-    @Param("id") id: string,
-    @Body(new ValidationPipe({ transform: true })) body: UpdateMatchRequest,
-  ) {
-    return this.matchesService.update(id, body);
   }
 
   @Post(":id/result")

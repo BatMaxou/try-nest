@@ -1,5 +1,4 @@
-import { IsString, IsInt, IsEnum, IsOptional, IsUUID } from "class-validator";
-import { MatchStatus } from "./matches.enum";
+import { IsString, IsInt, IsUUID } from "class-validator";
 
 export class CreateMatchRequest {
   @IsUUID()
@@ -10,36 +9,6 @@ export class CreateMatchRequest {
 
   @IsUUID()
   player2Id: string;
-}
-
-export class UpdateMatchRequest {
-  @IsOptional()
-  @IsUUID()
-  tournamentId?: string;
-
-  @IsOptional()
-  @IsUUID()
-  player1Id?: string;
-
-  @IsOptional()
-  @IsUUID()
-  player2Id?: string;
-
-  @IsOptional()
-  @IsUUID()
-  winnerId?: string;
-
-  @IsOptional()
-  @IsString()
-  score?: string;
-
-  @IsOptional()
-  @IsInt()
-  round?: number;
-
-  @IsOptional()
-  @IsEnum(MatchStatus)
-  status?: MatchStatus;
 }
 
 export class ResultMatchRequest {

@@ -31,7 +31,7 @@ export class GamesController {
     return this.gamesService.findById(id);
   }
 
-  @Post("create")
+  @Post()
   @HttpCode(HttpStatus.CREATED)
   @UseGuards(AuthAccessGuard, AuthAdminGuard)
   public async create(

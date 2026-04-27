@@ -1,0 +1,18 @@
+type: http_request
+model: http_request
+id: rq_tourMatches001
+createdAt: 2026-04-27T00:00:00
+updatedAt: 2026-04-27T07:48:56.984909321
+workspaceId: wk_tryNest001
+folderId: fl_fH49w2d4GH
+authentication: {}
+authenticationType: null
+body: {}
+bodyType: null
+description: ''
+headers: []
+method: GET
+name: Tournament Matches
+sortPriority: 1500.0
+url: ${[ BASE_URL ]}/tournaments/${[ LAST_TOURNAMENT_ID ]}/matches
+urlParameters: []
