@@ -36,11 +36,16 @@ FROM base AS prod
 
 WORKDIR /app
 
-RUN addgroup --system --gid 1001 nodejs;
-RUN adduser --system --uid 1001 nestjs;
-USER nestjs
+RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 nestjs
 
-COPY --from=builder /app/dist ./dist
+ENV NODE_ENV=production
+
+COPY --chown=nestjs:nodejs package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile --prod --ignore-scripts
+
+COPY --from=builder --chown=nestjs:nodejs /app/dist ./dist
+
+USER nestjs
 
 EXPOSE 3000
 
