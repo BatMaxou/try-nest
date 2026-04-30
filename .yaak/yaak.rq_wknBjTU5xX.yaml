@@ -2,7 +2,7 @@ type: http_request
 model: http_request
 id: rq_wknBjTU5xX
 createdAt: 2026-04-14T01:32:53.009157
-updatedAt: 2026-04-27T07:42:46.297212521
+updatedAt: 2026-04-30T10:05:42.220801
 workspaceId: wk_tryNest001
 folderId: fl_fH49w2d4GH
 authentication:
@@ -12,7 +12,7 @@ body:
   text: |-
     {
       "name": "Coupe du printemps 2026",
-      "gameId": "10970947-5f0b-446e-86e8-a81763ef0772",
+      "gameId": "62e0d123-1003-485b-ab6b-2847a929366f",
       "maxPlayers": 16,
       "startDate": "2026-05-01T18:00:00.000Z"
     }

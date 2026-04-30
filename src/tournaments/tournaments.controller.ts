@@ -5,10 +5,12 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  Inject,
   Param,
   Post,
   Put,
   Query,
+  UnauthorizedException,
   UseGuards,
   ValidationPipe,
 } from "@nestjs/common";
@@ -20,10 +22,16 @@ import {
   UpdateTournamentRequest,
 } from "./tournaments.request";
 import { AuthAccessGuard } from "../auth/auth.access.guard";
+import { REQUEST } from "@nestjs/core";
+import { Player } from "src/players/players.entity";
 
 @Controller("tournaments")
 export class TournamentsController {
-  public constructor(private readonly tournamentsService: TournamentsService) {}
+  public constructor(
+    private readonly tournamentsService: TournamentsService,
+    @Inject(REQUEST)
+    private readonly request: Request,
+  ) {}
 
   @Get()
   public async findAll(
@@ -39,7 +47,7 @@ export class TournamentsController {
   }
 
   @Get(":id/matches")
-  public async findMatches(@Param("id") id: string) {
+  public findMatches(@Param("id") id: string) {
     return this.tournamentsService.findMatches(id);
   }
 
@@ -71,6 +79,13 @@ export class TournamentsController {
   @HttpCode(HttpStatus.OK)
   @UseGuards(AuthAccessGuard)
   public async join(@Param("id") id: string) {
-    return this.tournamentsService.join(id);
+    const userId = (this.request as Request & { user: Player }).user
+      ?.identifier;
+
+    if (!userId) {
+      throw new UnauthorizedException();
+    }
+
+    return this.tournamentsService.join(id, userId);
   }
 }

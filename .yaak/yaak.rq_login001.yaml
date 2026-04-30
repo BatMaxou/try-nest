@@ -2,7 +2,7 @@ type: http_request
 model: http_request
 id: rq_login001
 createdAt: 2026-04-13T00:00:00
-updatedAt: 2026-04-27T07:41:08.355351983
+updatedAt: 2026-04-30T10:00:31.279058
 workspaceId: wk_tryNest001
 folderId: fl_auth001
 authentication: {}
@@ -10,8 +10,8 @@ authenticationType: none
 body:
   text: |-
     {
-      "identifier": "admin@tournament.com",
-      "password": "azertyuiAZ123#"
+      "identifier": "test@test.com",
+      "password": "password"
     }
 bodyType: application/json
 description: Log in a player
