@@ -1,8 +1,8 @@
 type: http_request
 model: http_request
-id: rq_4KJ8Kzsn2K
-createdAt: 2026-04-14T01:47:18.754841
-updatedAt: 2026-04-30T10:08:44.423684
+id: rq_9GFQL9kXNe
+createdAt: 2026-04-30T10:02:47.985585
+updatedAt: 2026-04-30T10:25:31.117977
 workspaceId: wk_tryNest001
 folderId: fl_fH49w2d4GH
 authentication:
@@ -12,8 +12,8 @@ body: {}
 bodyType: null
 description: ''
 headers: []
-method: DELETE
-name: Delete
+method: POST
+name: Join
 sortPriority: 4000.0
-url: ${[ BASE_URL ]}/tournaments/e6c18588-f35f-4d31-8a51-4f52b795f8e6
+url: ${[ BASE_URL ]}/tournaments/8a7d99b3-d2ab-494b-9fd4-239375afa5f6/join
 urlParameters: []

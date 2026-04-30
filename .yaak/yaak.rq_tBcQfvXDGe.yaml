@@ -2,7 +2,7 @@ type: http_request
 model: http_request
 id: rq_tBcQfvXDGe
 createdAt: 2026-04-14T00:49:11.589621
-updatedAt: 2026-04-14T00:49:40.316985
+updatedAt: 2026-04-30T10:11:42.462349
 workspaceId: wk_tryNest001
 folderId: fl_99RzUBgHbP
 authentication: {}
@@ -14,5 +14,5 @@ headers: []
 method: GET
 name: Game
 sortPriority: 1000.0
-url: ${[ BASE_URL ]}/games/f7590a5b-89dc-495d-a650-1a58f2f170df
+url: ${[ BASE_URL ]}/games/84101175-bf68-4987-93eb-74cb9ebc5d4e
 urlParameters: []

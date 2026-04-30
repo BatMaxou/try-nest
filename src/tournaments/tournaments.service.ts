@@ -1,13 +1,10 @@
 import {
   BadRequestException,
-  Inject,
   Injectable,
   NotFoundException,
-  Scope,
 } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { REQUEST } from "@nestjs/core";
 
 import { Game } from "../games/games.entity";
 import { Tournament } from "./tournaments.entity";
@@ -16,7 +13,6 @@ import {
   FiltersTournamentRequest,
   UpdateTournamentRequest,
 } from "./tournaments.request";
-import { Player } from "../players/players.entity";
 import { PlayersService } from "../players/players.service";
 import { TournamentsGateway } from "./tournaments.gateway";
 import { TournamentStatus } from "./tournaments.enum";
@@ -24,7 +20,7 @@ import { TournamentStatus } from "./tournaments.enum";
 /** Nombre d’inscrits (M2M) — sous-requête pour éviter GROUP BY + SELECT * (eager `game`, etc.). */
 const subscribedPlayerCountSql = `(SELECT COUNT(*)::int FROM tournaments_players tp WHERE tp.tournament_id = "tournament"."identifier")`;
 
-@Injectable({ scope: Scope.REQUEST })
+@Injectable()
 export class TournamentsService {
   public constructor(
     @InjectRepository(Tournament)
@@ -32,8 +28,6 @@ export class TournamentsService {
     @InjectRepository(Game)
     private readonly gamesRepository: Repository<Game>,
     private readonly playersService: PlayersService,
-    @Inject(REQUEST)
-    private readonly request: Request,
     private readonly tournamentsGateway: TournamentsGateway,
   ) {}
 
@@ -60,6 +54,12 @@ export class TournamentsService {
 
     if (filters?.isEnded === "true") {
       query.andWhere("tournament.status = :endedStatus", {
+        endedStatus: TournamentStatus.COMPLETED,
+      });
+    }
+
+    if (filters?.isEnded === "false") {
+      query.andWhere("tournament.status != :endedStatus", {
         endedStatus: TournamentStatus.COMPLETED,
       });
     }
@@ -205,7 +205,7 @@ export class TournamentsService {
     };
   }
 
-  public async join(id: string) {
+  public async join(id: string, userId: string) {
     const tournament = await this.tournamentsRepository.findOne({
       where: { identifier: id },
       relations: { players: true },
@@ -215,12 +215,7 @@ export class TournamentsService {
       throw new NotFoundException("Tournament not found");
     }
 
-    const currentUserId = (this.request as Request & { user: Player }).user
-      ?.identifier;
-
-    const player = currentUserId
-      ? await this.playersService.findById(currentUserId)
-      : null;
+    const player = userId ? await this.playersService.findById(userId) : null;
 
     if (!player) {
       throw new NotFoundException("Player not found");
